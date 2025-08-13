@@ -10,8 +10,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-# 查找必要的包
-find_package(PkgConfig REQUIRED)
+# 查找必要的包（仅在Linux上需要PkgConfig）
+if(UNIX AND NOT APPLE)
+    find_package(PkgConfig REQUIRED)
+endif()
 
 # 平台特定设置
 if(WIN32)
@@ -31,18 +33,29 @@ elseif(APPLE)
     
     add_definitions(-DMACOS)
     
-    # 启用 Objective-C++ 支持
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
+    # 启用 Objective-C++ 支持（仅限Clang）
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
+    endif()
     
-elseif(UNIX)
-    set(PLATFORM_SPECIFIC_LIBS "")
+elseif(UNIX AND NOT APPLE)
+    # Linux GTK+ 支持
+    pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+    
+    set(PLATFORM_SPECIFIC_LIBS ${GTK3_LIBRARIES})
+    include_directories(${GTK3_INCLUDE_DIRS})
+    link_directories(${GTK3_LIBRARY_DIRS})
+    add_definitions(${GTK3_CFLAGS_OTHER})
+    
     add_definitions(-DLINUX)
+    
 endif()
 
 # 添加子目录
 add_subdirectory(src)
-add_subdirectory(plugins)
-add_subdirectory(tests)
+# TODO: 实现插件后启用
+# add_subdirectory(plugins)
+# add_subdirectory(tests)
 
 # 设置安装规则
 install(TARGETS LitePad

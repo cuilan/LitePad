@@ -11,14 +11,14 @@ class PluginManager;
 class ConfigManager;
 
 /**
- * 平台窗口抽象接口
- * 定义所有平台窗口必须实现的接口
+ * 平台抽象窗口接口
+ * 定义了跨平台窗口的通用接口
  */
 class PlatformWindow {
 public:
     virtual ~PlatformWindow() = default;
     
-    // 窗口基础操作
+    // 窗口生命周期
     virtual void show() = 0;
     virtual void hide() = 0;
     virtual void close() = 0;
@@ -44,30 +44,35 @@ public:
     virtual void saveFile() = 0;
     virtual void saveAs() = 0;
     
-    // 应用程序操作
+    // 应用程序控制
+    virtual void quit() = 0;
+    virtual void showAbout() = 0;
     virtual void showPluginManager() = 0;
     virtual void showSettings() = 0;
-    virtual void showAbout() = 0;
-    virtual void quit() = 0;
     
-    // 组件访问
+    // 编辑器集成
     virtual void setEditor(std::shared_ptr<Editor> editor) = 0;
     virtual void setPluginManager(std::shared_ptr<PluginManager> pluginManager) = 0;
     virtual void setConfigManager(std::shared_ptr<ConfigManager> configManager) = 0;
     
-    // 状态更新
-    virtual void setStatusBarText(const std::string& text) = 0;
-    virtual void updateMenuState() = 0;
-    virtual void handleFileDrop(const std::string& filePath) = 0;
+    // 文本内容
+    virtual void setTextContent(const std::string& content) = 0;
+    virtual std::string getTextContent() const = 0;
     
-    // 事件回调
-    virtual void setCloseCallback(std::function<bool()> callback) = 0;
-    virtual void setFileChangedCallback(std::function<void()> callback) = 0;
+    // 回调设置
+    virtual void setTextChangedCallback(std::function<void(const std::string&)> callback) = 0;
+    virtual void setWindowCloseCallback(std::function<bool()> callback) = 0;
+    
+    // 状态栏
+    virtual void setStatusText(const std::string& text) = 0;
+    
+    // 文件拖放
+    virtual void handleFileDrop(const std::string& filePath) = 0;
 };
 
 /**
  * 平台窗口工厂
- * 根据当前平台创建相应的窗口实现
+ * 根据当前平台创建相应的原生窗口实现
  */
 class PlatformWindowFactory {
 public:

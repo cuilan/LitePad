@@ -1,20 +1,20 @@
 # 主程序源文件
+set(MAIN_SOURCES
+    main.cpp
+    MainWindow.cpp
+    Editor.cpp
+    PluginManager.cpp
+    ConfigManager.cpp
+    PlatformWindow.cpp
+)
+
+# 平台特定源文件
 if(APPLE)
-    set(MAIN_SOURCES
-        main.cpp
-        MainWindow.mm  # macOS 使用 Objective-C++
-        Editor.cpp
-        PluginManager.cpp
-        ConfigManager.cpp
-    )
-else()
-    set(MAIN_SOURCES
-        main.cpp
-        MainWindow.cpp
-        Editor.cpp
-        PluginManager.cpp
-        ConfigManager.cpp
-    )
+    list(APPEND MAIN_SOURCES platforms/MacOSWindow.mm)
+elseif(WIN32)
+    list(APPEND MAIN_SOURCES platforms/WindowsWindow.cpp)
+elseif(UNIX AND NOT APPLE)
+    list(APPEND MAIN_SOURCES platforms/LinuxWindow.cpp)
 endif()
 
 # 主程序头文件
@@ -24,7 +24,17 @@ set(MAIN_HEADERS
     PluginManager.h
     ConfigManager.h
     PluginInterface.h
+    PlatformWindow.h
 )
+
+# 平台特定头文件
+if(APPLE)
+    list(APPEND MAIN_HEADERS platforms/MacOSWindow.h)
+elseif(WIN32)
+    list(APPEND MAIN_HEADERS platforms/WindowsWindow.h)
+elseif(UNIX AND NOT APPLE)
+    list(APPEND MAIN_HEADERS platforms/LinuxWindow.h)
+endif()
 
 # 创建主程序可执行文件
 add_executable(LitePad ${MAIN_SOURCES} ${MAIN_HEADERS})

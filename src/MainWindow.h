@@ -8,6 +8,7 @@
 class Editor;
 class PluginManager;
 class ConfigManager;
+class PlatformWindow;
 
 /**
  * 主窗口类
@@ -171,10 +172,6 @@ public:
     void handleFileDrop(const std::string& filePath);
 
 private:
-    // pImpl 模式，隐藏平台特定实现
-    class Impl;
-    std::unique_ptr<Impl> pImpl;
-    
     // 缓存的窗口状态
     std::string title_;
     int width_;
@@ -183,6 +180,12 @@ private:
     int y_;
     bool maximized_;
     bool minimized_;
+    
+    // 使用平台抽象层
+    std::unique_ptr<PlatformWindow> platformWindow_;
+    std::shared_ptr<Editor> editor_;
+    std::shared_ptr<PluginManager> pluginManager_;
+    std::shared_ptr<ConfigManager> configManager_;
     
     /**
      * 初始化用户界面

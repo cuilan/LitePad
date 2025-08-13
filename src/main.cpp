@@ -5,7 +5,7 @@
 #include "ConfigManager.h"
 
 #ifdef MACOS
-#import <Cocoa/Cocoa.h>
+#include "platforms/MacOSEventLoop.h"
 #endif
 
 /**
@@ -16,11 +16,6 @@
  */
 int main(int argc, char* argv[]) {
     try {
-#ifdef MACOS
-        // 初始化 Cocoa 应用程序
-        [NSApplication sharedApplication];
-        [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-#endif
         
         // 初始化配置管理器
         auto configManager = std::make_shared<ConfigManager>();
@@ -48,13 +43,20 @@ int main(int argc, char* argv[]) {
         
         std::cout << "LitePad started successfully!" << std::endl;
         
+        // 进入平台特定的事件循环
 #ifdef MACOS
-        // 进入 macOS 事件循环
-        [NSApp activateIgnoringOtherApps:YES];
-        [NSApp run];
+        // macOS 需要特殊的应用程序初始化和事件循环
+        runMacOSEventLoop();
+#elif defined(WIN32)
+        // Windows 事件循环
+        // TODO: 实现 Windows 事件循环
+#elif defined(LINUX)
+        // Linux GTK 事件循环
+        // TODO: 实现 GTK 事件循环
 #else
-        // 其他平台的事件循环
-        // TODO: 实现其他平台的GUI事件循环
+        // fallback：简单的控制台等待
+        std::cout << "Press Enter to exit..." << std::endl;
+        std::cin.get();
 #endif
         
         // 保存配置

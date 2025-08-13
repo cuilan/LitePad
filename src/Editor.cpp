@@ -280,6 +280,6 @@ void Editor::notifyContentChanged() {
 
 void Editor::notifyFilePathChanged() {
     if (filePathChangedCallback_) {
-        filePathChangedCallback_();
+        filePathChangedCallback_(filePath_);
     }
 }
