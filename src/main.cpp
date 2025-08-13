@@ -6,6 +6,8 @@
 
 #ifdef MACOS
 #include "platforms/MacOSEventLoop.h"
+#elif defined(WIN32)
+#include <windows.h>
 #endif
 
 /**
@@ -48,8 +50,12 @@ int main(int argc, char* argv[]) {
         // macOS 需要特殊的应用程序初始化和事件循环
         runMacOSEventLoop();
 #elif defined(WIN32)
-        // Windows 事件循环
-        // TODO: 实现 Windows 事件循环
+        // Windows 消息循环
+        MSG msg = {};
+        while (GetMessage(&msg, nullptr, 0, 0)) {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
 #elif defined(LINUX)
         // Linux GTK 事件循环
         // TODO: 实现 GTK 事件循环

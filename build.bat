@@ -50,9 +50,11 @@ REM 复制配置文件到输出目录
 if not exist bin\Release\config mkdir bin\Release\config
 copy ..\config\default.conf bin\Release\config\
 
-REM 复制插件到输出目录
-if not exist bin\Release\plugins mkdir bin\Release\plugins
-copy plugins\Release\BasicPlugins.dll bin\Release\plugins\
+REM 复制插件到输出目录（如果存在）
+if exist plugins\Release\*.dll (
+    if not exist bin\Release\plugins mkdir bin\Release\plugins
+    copy plugins\Release\*.dll bin\Release\plugins\
+)
 
 echo Files copied to output directory.
 pause
