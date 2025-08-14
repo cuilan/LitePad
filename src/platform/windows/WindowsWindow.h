@@ -1,19 +1,19 @@
-#ifndef LINUX_WINDOW_H
-#define LINUX_WINDOW_H
+#ifndef WINDOWS_WINDOW_H
+#define WINDOWS_WINDOW_H
 
 #include "../PlatformWindow.h"
 #include <memory>
 
-#ifdef LINUX
+#ifdef WIN32
 
 /**
- * Linux 平台窗口实现
- * 使用 GTK+ 实现原生 Linux 界面
+ * Windows 平台窗口实现
+ * 使用 Win32 API 实现原生 Windows 界面
  */
-class LinuxWindow : public PlatformWindow {
+class WindowsWindow : public PlatformWindow {
 public:
-    LinuxWindow();
-    ~LinuxWindow() override;
+    WindowsWindow();
+    ~WindowsWindow() override;
     
     // PlatformWindow 接口实现
     void show() override;
@@ -63,8 +63,11 @@ private:
     std::string title_;
     int width_, height_;
     int x_, y_;
+    
+    // Windows 消息处理函数
+    static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
 
-#endif // LINUX
+#endif // WIN32
 
-#endif // LINUX_WINDOW_H
+#endif // WINDOWS_WINDOW_H

@@ -1,13 +1,134 @@
 # LitePad
 
-开发中，请期待...
+A lightweight, cross-platform code editor built with C++17.
 
-这是一个使用C++实现的代码编辑器，追求极致的轻量化、插件化、高度可配置化。
+## Overview
 
-功能实现：
+LitePad is a lightweight code editor with the following features:
 
-1. 默认打开仅具备基础功能，追求类似 Windows 记事本的功能和极致的性能，唯一多的功能就是菜单栏中多一项“插件”按钮。
-2. 此IDE的特点就是插件，通过勾选来实现动态加载插件，以实现功能定制化。
-3. 基础插件有：显示行号、代码高亮、自动保存、终端等。
+- **Lightweight**: Pursuit of ultimate performance and lightweight design
+- **Cross-platform**: Support for Windows, macOS, Linux and other platforms
+- **Plugin-based**: Functionality extension through plugin system
+- **Highly configurable**: Support for rich configuration options
 
-* 实现跨平台，支持 Windows、MacOS、Linux等多平台。
+## Documentation
+
+- [Requirements (中文)](docs/requirements.zh-CN.md)
+- [Development Environment (中文)](docs/development-environment.zh-CN.md)
+- [Project Milestones (中文)](docs/milestones.zh-CN.md)
+- [Task List](docs/TODO.md)
+
+## Quick Start
+
+### Prerequisites
+
+- C++17 compatible compiler
+- CMake 3.16 or higher
+- Platform-specific dependencies:
+  - **Windows**: Visual Studio 2019+ or MinGW-w64
+  - **macOS**: Xcode 12+ with Command Line Tools
+  - **Linux**: GCC 7+ or Clang 8+, GTK+ 3.0 development libraries
+
+### Building
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/LitePad.git
+cd LitePad
+
+# Create build directory
+mkdir build && cd build
+
+# Configure with CMake
+cmake .. -DCMAKE_BUILD_TYPE=Release
+
+# Build
+make -j$(nproc)  # Linux/macOS
+# or
+cmake --build . --config Release  # Cross-platform
+```
+
+### Running
+
+```bash
+# From build directory
+./bin/LitePad
+
+# Or with a file argument
+./bin/LitePad path/to/your/file.txt
+```
+
+## Platform Support
+
+| Platform | Status | GUI Framework |
+|----------|--------|---------------|
+| Windows  | ✅ Supported | Win32 API |
+| macOS    | ✅ Supported | Cocoa/AppKit |
+| Linux    | ✅ Supported | GTK+ 3.0 |
+
+## Architecture
+
+```
+LitePad/
+├── src/                    # Main source code
+│   ├── platform/          # Platform-specific implementations
+│   │   ├── windows/       # Windows-specific code
+│   │   ├── macos/         # macOS-specific code
+│   │   └── linux/         # Linux-specific code
+│   ├── Editor.cpp         # Core editor functionality
+│   ├── PluginManager.cpp  # Plugin system
+│   └── ConfigManager.cpp  # Configuration management
+├── plugins/               # Plugin headers and implementations
+├── config/                # Configuration files
+├── docs/                  # Documentation
+└── tests/                 # Test suite
+```
+
+## Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow C++17 standards
+- Use consistent code formatting (see `.clang-format`)
+- Write tests for new features
+- Update documentation as needed
+- Follow conventional commit format
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+- **Issues**: [GitHub Issues](https://github.com/your-username/LitePad/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-username/LitePad/discussions)
+- **Pull Requests**: [GitHub Pull Requests](https://github.com/your-username/LitePad/pulls)
+
+## Changelog
+
+### v0.1.0 (Current)
+- ✅ Initial project structure
+- ✅ Cross-platform build system
+- ✅ Basic editor core implementation
+- ✅ Platform-specific window systems
+- ✅ Plugin system architecture
+- ✅ Configuration management system
+
+### Upcoming
+- [ ] GUI implementation
+- [ ] Plugin system completion
+- [ ] Syntax highlighting
+- [ ] File management
+- [ ] Advanced editing features
+
+---
+
+**English** | [中文](README.zh-CN.md)

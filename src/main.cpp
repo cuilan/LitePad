@@ -5,7 +5,7 @@
 #include "ConfigManager.h"
 
 #ifdef MACOS
-#include "platforms/MacOSEventLoop.h"
+#include "platform/macos/MacOSEventLoop.h"
 #elif defined(WIN32)
 #include <windows.h>
 #endif

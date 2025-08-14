@@ -10,11 +10,11 @@ set(MAIN_SOURCES
 
 # 平台特定源文件
 if(APPLE)
-    list(APPEND MAIN_SOURCES platforms/MacOSWindow.mm)
+    list(APPEND MAIN_SOURCES platform/macos/MacOSWindow.mm)
 elseif(WIN32)
-    list(APPEND MAIN_SOURCES platforms/WindowsWindow.cpp)
+    list(APPEND MAIN_SOURCES platform/windows/WindowsWindow.cpp)
 elseif(UNIX AND NOT APPLE)
-    list(APPEND MAIN_SOURCES platforms/LinuxWindow.cpp)
+    list(APPEND MAIN_SOURCES platform/linux/LinuxWindow.cpp)
 endif()
 
 # 主程序头文件
@@ -29,11 +29,14 @@ set(MAIN_HEADERS
 
 # 平台特定头文件
 if(APPLE)
-    list(APPEND MAIN_HEADERS platforms/MacOSWindow.h)
+    list(APPEND MAIN_HEADERS 
+        platform/macos/MacOSWindow.h
+        platform/macos/MacOSEventLoop.h
+    )
 elseif(WIN32)
-    list(APPEND MAIN_HEADERS platforms/WindowsWindow.h)
+    list(APPEND MAIN_HEADERS platform/windows/WindowsWindow.h)
 elseif(UNIX AND NOT APPLE)
-    list(APPEND MAIN_HEADERS platforms/LinuxWindow.h)
+    list(APPEND MAIN_HEADERS platform/linux/LinuxWindow.h)
 endif()
 
 # 创建主程序可执行文件
@@ -43,6 +46,7 @@ add_executable(LitePad ${MAIN_SOURCES} ${MAIN_HEADERS})
 target_include_directories(LitePad PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../plugins
+    ${CMAKE_CURRENT_SOURCE_DIR}/platform
 )
 
 # 链接库

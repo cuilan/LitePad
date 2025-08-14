@@ -4,6 +4,26 @@ project(LitePad VERSION 1.0.0 LANGUAGES CXX OBJCXX)
 # 设置C++标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# 编译器版本检查
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7.0")
+        message(FATAL_ERROR "GCC version must be at least 7.0")
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "8.0")
+        message(FATAL_ERROR "Clang version must be at least 8.0")
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.20")
+        message(FATAL_ERROR "MSVC version must be at least 19.20 (Visual Studio 2019)")
+    endif()
+endif()
+
+# 显示编译器信息
+message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
 
 # 设置输出目录
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

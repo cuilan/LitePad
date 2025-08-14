@@ -2,11 +2,11 @@
 
 // 包含平台特定的头文件
 #ifdef MACOS
-#include "platforms/MacOSWindow.h"
+#include "platform/macos/MacOSWindow.h"
 #elif defined(WIN32)
-#include "platforms/WindowsWindow.h"
+#include "platform/windows/WindowsWindow.h"
 #elif defined(LINUX)
-#include "platforms/LinuxWindow.h"
+#include "platform/linux/LinuxWindow.h"
 #endif
 
 std::unique_ptr<PlatformWindow> PlatformWindowFactory::createWindow() {

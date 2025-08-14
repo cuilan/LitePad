@@ -1,19 +1,19 @@
-#ifndef WINDOWS_WINDOW_H
-#define WINDOWS_WINDOW_H
+#ifndef LINUX_WINDOW_H
+#define LINUX_WINDOW_H
 
 #include "../PlatformWindow.h"
 #include <memory>
 
-#ifdef WIN32
+#ifdef LINUX
 
 /**
- * Windows 平台窗口实现
- * 使用 Win32 API 实现原生 Windows 界面
+ * Linux 平台窗口实现
+ * 使用 GTK+ 实现原生 Linux 界面
  */
-class WindowsWindow : public PlatformWindow {
+class LinuxWindow : public PlatformWindow {
 public:
-    WindowsWindow();
-    ~WindowsWindow() override;
+    LinuxWindow();
+    ~LinuxWindow() override;
     
     // PlatformWindow 接口实现
     void show() override;
@@ -63,8 +63,13 @@ private:
     std::string title_;
     int width_, height_;
     int x_, y_;
+    
+    // GTK+ 回调函数
+    static gboolean onDeleteEvent(GtkWidget* widget, GdkEvent* event, gpointer userData);
+    static void onDestroy(GtkWidget* widget, gpointer userData);
+    static void onTextChanged(GtkTextBuffer* textBuffer, gpointer userData);
 };
 
-#endif // WIN32
+#endif // LINUX
 
-#endif // WINDOWS_WINDOW_H
+#endif // LINUX_WINDOW_H
