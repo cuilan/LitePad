@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
-project(LitePad VERSION 1.0.0 LANGUAGES CXX OBJCXX)
+
+# 根据平台设置语言支持
+if(APPLE)
+    project(LitePad VERSION 1.0.0 LANGUAGES CXX OBJCXX)
+else()
+    project(LitePad VERSION 1.0.0 LANGUAGES CXX)
+endif()
 
 # 设置C++标准
 set(CMAKE_CXX_STANDARD 17)

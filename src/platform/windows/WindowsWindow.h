@@ -5,6 +5,8 @@
 #include <memory>
 
 #ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 /**
  * Windows 平台窗口实现
@@ -66,7 +68,28 @@ private:
     
     // Windows 消息处理函数
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    
+    // 菜单相关方法
+    void createMenuBar();
+    void handleMenuCommand(int menuId);
 };
+
+// 菜单项ID定义
+#define ID_FILE_NEW         1001
+#define ID_FILE_OPEN        1002
+#define ID_FILE_SAVE        1003
+#define ID_FILE_SAVE_AS     1004
+#define ID_FILE_EXIT        1005
+
+#define ID_EDIT_UNDO        2001
+#define ID_EDIT_REDO        2002
+#define ID_EDIT_CUT         2003
+#define ID_EDIT_COPY        2004
+#define ID_EDIT_PASTE       2005
+#define ID_EDIT_SELECT_ALL  2006
+#define ID_EDIT_FIND        2007
+
+#define ID_HELP_ABOUT       3001
 
 #endif // WIN32
 
